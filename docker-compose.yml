@@ -1,0 +1,14 @@
+version: '3.5'
+services:
+  app:
+    build: .
+    command: bash -c "python manage.py migrate &&  python manage.py loaddata auth.json polls.json authtoken.json && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8000:8000
+    networks:
+      - default
+    volumes:
+      - ./:/app
+
+networks:
+  default:

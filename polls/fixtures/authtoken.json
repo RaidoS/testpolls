@@ -1,0 +1,10 @@
+[
+{
+    "model": "authtoken.token",
+    "pk": "14bdb407d0d76155432f2f11bf7e81ee88df1a7d",
+    "fields": {
+        "user": 2,
+        "created": "2020-08-05T03:38:01.069Z"
+    }
+}
+]

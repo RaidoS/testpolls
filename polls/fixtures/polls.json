@@ -1,0 +1,71 @@
+[
+{
+    "model": "polls.poll",
+    "pk": 1,
+    "fields": {
+        "name": "What day is today?",
+        "text": "Tell us plz calendar day",
+        "is_active": true,
+        "date_created": "2020-08-04T13:09:54.208Z",
+        "date_changed": "2020-08-04T12:55:38.133Z",
+        "date_start": "2020-08-04"
+    }
+},
+{
+    "model": "polls.poll",
+    "pk": 2,
+    "fields": {
+        "name": "What is ur name?",
+        "text": "Let`s meet, friend",
+        "is_active": true,
+        "date_created": "2020-08-04T13:09:50.482Z",
+        "date_changed": "2020-08-04T13:00:51.798Z",
+        "date_start": "2020-08-04"
+    }
+},
+{
+    "model": "polls.question",
+    "pk": 1,
+    "fields": {
+        "poll": 1,
+        "text": "Select day",
+        "question_type": "SINGLE"
+    }
+},
+{
+    "model": "polls.questionvote",
+    "pk": 1,
+    "fields": {
+        "question": 1,
+        "text": "5"
+    }
+},
+{
+    "model": "polls.questionvote",
+    "pk": 2,
+    "fields": {
+        "question": 1,
+        "text": "6"
+    }
+},
+{
+    "model": "polls.choice",
+    "pk": 1,
+    "fields": {
+        "author": 111,
+        "questionvote": 1,
+        "vote": true,
+        "answer_text": ""
+    }
+},
+{
+    "model": "polls.choice",
+    "pk": 2,
+    "fields": {
+        "author": 111,
+        "questionvote": 1,
+        "vote": false,
+        "answer_text": ""
+    }
+}
+]
