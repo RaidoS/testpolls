@@ -8,7 +8,7 @@ from polls.models import Poll, Choice
 
 class PollsAPITests(APITestCase):
 
-    fixtures = ['polls.json', 'auth.json']
+    fixtures = ['auth.json', 'polls.json', 'authtoken.json']
 
     url = reverse('polls:poll-list')
 
@@ -27,20 +27,20 @@ class PollsAPITests(APITestCase):
     def test_create_polls_annonimous(self):
         data = {"name": "name", "text": "text"}
         response = self.client.post(self.url, data=data)
-        self.assertEqual(403, response.status_code)
+        self.assertEqual(401, response.status_code)
 
     def test_create_polls_admin(self):
         data = {"name": "name", "text": "text"}
         user = User.objects.get(username='pollsadmin')
         client = APIClient()
-        client.force_authenticate(user=user)
+        client.force_authenticate(user=user, token=user.auth_token)
         response = client.post(self.url, data=data)
         self.assertEqual(201, response.status_code)
 
     def test_change_polls_admin(self):
         user = User.objects.get(username='pollsadmin')
         client = APIClient()
-        client.force_authenticate(user=user)
+        client.force_authenticate(user=user, token=user.auth_token)
 
         poll = Poll.objects.last()
         url = reverse('polls:poll-detail', args=[poll.id])
@@ -51,7 +51,7 @@ class PollsAPITests(APITestCase):
     def test_change_polls_date(self):
         user = User.objects.get(username='pollsadmin')
         client = APIClient()
-        client.force_authenticate(user=user)
+        client.force_authenticate(user=user, token=user.auth_token)
 
         poll = Poll.objects.last()
         url = reverse('polls:poll-detail', args=[poll.id])
@@ -66,7 +66,7 @@ class PollsAPITests(APITestCase):
         data = {
             "questions": [
                 {   
-                    "pk": "1",
+                    "id": "1",
                     "text": "Select new"
                 },
                 {
@@ -77,15 +77,14 @@ class PollsAPITests(APITestCase):
         }
         user = User.objects.get(username='pollsadmin')
         client = APIClient()
-        client.force_authenticate(user=user)
+        client.force_authenticate(user=user, token=user.auth_token)
         response = client.patch(url, data, format='json')
         self.assertEqual(200, response.status_code)
-        import ipdb; ipdb.set_trace()
 
 
 class ChoiceAPITest(APITestCase):
 
-    fixtures = ['polls.json', 'auth.json']
+    fixtures = ['auth.json', 'polls.json', 'authtoken.json']
 
     url = reverse('polls:choice-list')
     poll = Poll.objects.first()

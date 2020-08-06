@@ -7,13 +7,12 @@ class PollsAdmin(BasePermission):
     """
 
     def has_permission(self, request, view):
-        perms = [
+        perms = (
             'polls.view_poll',
             'polls.add_poll',
             'polls.change_poll',
             'polls.delete_poll'
-        ]
-        for i in perms:
-            if request.user.has_perm(i):
-                return True
+        )
+        if request.user.has_perms(perms):
+            return True
         return False

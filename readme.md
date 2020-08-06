@@ -10,3 +10,8 @@ curl http://127.0.0.1:8000/hello/ -H 'Authorization: Token 14bdb407d0d76155432f2
 if you see "Hi there", so you succerfull auth
 
 then open url http://127.0.0.1:8000/api/ all endpoints are there, just navigate over urls and read docs
+
+run tests:
+```sh
+docker-compose exec app python manage.py test
+```

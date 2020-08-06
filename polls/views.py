@@ -15,10 +15,10 @@ class PollViewSet(
             mixins.UpdateModelMixin,
             viewsets.GenericViewSet
         ):
-    """ 
+    """
     To get list of Polls http://127.0.0.1:8000/api/polls/
     detail Poll http://127.0.0.1:8000/api/polls/1/
-    
+
     """
 
     serializer_classes = {

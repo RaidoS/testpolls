@@ -20,6 +20,7 @@ class QuestionVoteSerializer(serializers.ModelSerializer):
 
 class QuestionSerializer(serializers.ModelSerializer):
     questionvotes = QuestionVoteSerializer(many=True, required=False)
+    id = serializers.IntegerField(required=False)
 
     class Meta:
         model = Question
@@ -60,7 +61,8 @@ class PollCreateSerializer(serializers.ModelSerializer):
 class PollUpdateSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(
         many=True,
-        required=False
+        required=False,
+        read_only=False
     )
 
     class Meta:
@@ -68,8 +70,15 @@ class PollUpdateSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def update(self, instance, validated_data):
-        qs = validated_data.pop("questions", [])
-        date_start = validated_data.get('date_start', None)        
+        questions = validated_data.pop("questions", [])
+
+        for question in questions:
+            question_id = question.pop('id', None)
+            qs = Question.objects.filter(id=question_id, poll=instance)
+            if qs.exists():
+                qs.update(**question)
+
+        date_start = validated_data.get('date_start', None)
         if date_start is not None:
             if date_start != instance.date_start and instance.date_start is not None:
                 raise serializers.ValidationError(_("Cannot change start date"))
